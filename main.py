@@ -20,6 +20,6 @@ element_practice.click()
 
 element_name =  driver.find_element(By.CSS_SELECTOR, "#firstName")
 element_name.send_keys('Blacky')
-time.sleep(10)
+time.sleep(5)
 
 driver.quit()

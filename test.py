@@ -28,4 +28,4 @@ driver.find_element(By.CSS_SELECTOR, "#lastName").send_keys('Perez')
 driver.find_element(By.CSS_SELECTOR, "#userEmail").send_keys('Blackyperez@gmail.com')
 driver.find_element(By.CSS_SELECTOR, "label[for='gender-radio-3']").click()
 driver.find_element(By.CSS_SELECTOR, "#userNumber").send_keys("1234567")
-driver.quit()
+driver.quit

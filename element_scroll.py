@@ -11,6 +11,21 @@ from selenium.common.exceptions import NoSuchElementException
 # podamos colocar mas parametros y que no se rompa el programa porque le sobran, uno de mas para ser exactos)
  
 
+
+# def find_and_scroll(driver, scroll_quantity, element_identificator, max_attempts=3):
+#         if WebDriverWait(driver, 10).until(EC.presence_of_element_located(element_identificator)):
+#             elemento_to_be_clickable = WebDriverWait(driver, 10).until(EC.element_to_be_clickable(element_identificator))
+#             if elemento_to_be_clickable is not None:
+#                 elemento = driver.find_element(*element_identificator)
+#                 return elemento
+#             else:
+#                 driver.execute_script(f"window.scrollBy(0, {scroll_quantity})")
+#                 return find_and_scroll(driver, scroll_quantity, element_identificator, max_attempts - 1)
+        
+
+
+
+
 # def find_and_scroll(driver, scroll_quantity, element_identificator, max_attempts=3):
 #     for _ in range(max_attempts):
 #         try:
@@ -27,23 +42,23 @@ from selenium.common.exceptions import NoSuchElementException
 
 
 
-def find_and_scroll(driver, scroll_quantity, element_identificator):
-    max_attempts = 3
-    attempts = 0
+# def find_and_scroll(driver, scroll_quantity, element_identificator, max_attempts=3):
+#     try:
+#         WebDriverWait(driver, 10).until(EC.presence_of_element_located(element_identificator))
+#         elemento_to_be_clickable = WebDriverWait(driver, 10).until(EC.element_to_be_clickable(element_identificator))
+#         if elemento_to_be_clickable is not None:
+#             elemento = driver.find_element(*element_identificator)
+#             return elemento
+#         else:
+#             driver.execute_script(f"window.scrollBy(0, {scroll_quantity}")
+#             return find_and_scroll(driver, scroll_quantity, element_identificator, max_attempts - 1)
+#     except (NoSuchElementException, StaleElementReferenceException):
+#         if max_attempts > 0:
+#             driver.execute_script(f"window.scrollBy(0, {scroll_quantity})")
+#             # Llamada recursiva para volver a verificar después del desplazamiento
+#             return find_and_scroll(driver, scroll_quantity, element_identificator, max_attempts - 1)
+#     return None
 
-    while attempts < max_attempts:
-        try:
-            elemento_to_be_clickable = WebDriverWait(driver, 10).until(EC.element_to_be_clickable(element_identificator))
-            if elemento_to_be_clickable:
-                elemento = driver.find_element(*element_identificator)
-                return elemento
-            else:
-                driver.execute_script(f"window.scrollBy(0, {scroll_quantity}")
-        except (NoSuchElementException, StaleElementReferenceException):
-            driver.execute_script(f"window.scrollBy(0, {scroll_quantity})")
-            attempts += 1
-
-    return elemento
 
 
 # def find_and_scroll(driver, scroll_quantity, element_identificator):
@@ -59,21 +74,27 @@ def find_and_scroll(driver, scroll_quantity, element_identificator):
 
 
 # ESTE SI SIRVE
-# def find_and_scroll(driver, scroll_quantity, element_identificator):
+def find_and_scroll(driver, scroll_quantity, element_identificator):
+    max_attemps=3
 
-#     WebDriverWait(driver, 10).until(EC.presence_of_element_located(element_identificator))
-#             # Esperar a que el elemento sea clickeable y visible
-#     elemento_to_be_clickable = WebDriverWait(driver, 10).until(EC.element_to_be_clickable(element_identificator))
-#     # driver.execute_script(f"window.scrollBy(0, {scroll_quantity})")
-#     if elemento_to_be_clickable is not None:
-#         elemento = driver.find_element(*element_identificator)
-#         return elemento # Si se encuentra el elemento y es clickeable, lo retorna
-#     else:
-#         driver.execute_script(f"window.scrollBy(0, {scroll_quantity})")
-    
+    while max_attemps > 0:
+        WebDriverWait(driver, 10).until(EC.presence_of_element_located(element_identificator))
+            # Esperar a que el elemento sea clickeable y visible
+        elemento_to_be_clickable = WebDriverWait(driver, 10).until(EC.element_to_be_clickable(element_identificator))
+        # driver.execute_script(f"window.scrollBy(0, {scroll_quantity})")
+        if elemento_to_be_clickable is not None:
+            elemento = driver.find_element(*element_identificator)
+            return elemento # Si se encuentra el elemento y es clickeable, lo retorna
+        elif elemento_to_be_clickable is None:
+            driver.execute_script(f"window.scrollBy(0, {scroll_quantity})")
+        elif elemento_to_be_clickable is not None:
+            elemento = driver.find_element(*element_identificator)
+            return elemento
+        else:
+            print("LAPUTAMADRENOFUNCIONA ESA VERGAAA")
+
  
-
-#     return elemento
+    return elemento
 
 
 #PD: solo sirve si directament el elemento no esta visible, en caso de que aparezca pero tenga algo como un anuncio delante, este dara error en la ejecucion del mismo

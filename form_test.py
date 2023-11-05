@@ -7,13 +7,15 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.support import expected_conditions as EC
 from element_scroll import find_and_scroll
+
 
 
 
 #Crear el driver para poder darle uso a el navegador y realizar acciones en el mismo.
 driver = webdriver.Firefox()
-
+wait = WebDriverWait(driver, 10)
 #Se hace uso del .get para poder pasarle una URL y que sea enviado a la misma
 driver.get('https://demoqa.com/')
 
@@ -40,20 +42,31 @@ driver.find_element(By.CSS_SELECTOR, "#lastName").send_keys('Perez')
 driver.find_element(By.CSS_SELECTOR, "#userEmail").send_keys('Blackyperez@gmail.com')
 driver.find_element(By.CSS_SELECTOR, "label[for='gender-radio-3']").click()
 driver.find_element(By.CSS_SELECTOR, "#userNumber").send_keys("1234567")
+driver.execute_script("window.scroll(0, 400)")
+
+
+element_bod = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "#dateOfBirthInput")))
+element_bod.click()
+# element_bod = driver.find_element(By.CSS_SELECTOR, "#dateOfBirthInput")
+# element_bod.click()
+element_month_select = driver.find_element(By.CSS_SELECTOR, ".react-datepicker__month-select")
+element_month_select.click()
+driver.find_element(By.CSS_SELECTOR, "option[value='9']").click() #OJO Este elemento si no esta visible en el UI, es decir que no esta ni siquiera abierto la busqueda del elemento no podra ser utilizado. Una opcion en este caso es hacer un assert de el paso anterior requerido para que este sea visible.
+driver.find_element(By.XPATH, "//select[@class='react-datepicker__year-select']").click()
+driver.find_element(By.CSS_SELECTOR, "option[value='2015']").click()
+driver.find_element(By.XPATH, "//div[@aria-label='Choose Wednesday, October 21st, 2015']").click()
+time.sleep(5)
+
+
+element_subject = driver.find_element(By.CSS_SELECTOR, "#subjectsInput")
+element_subject.click()
+time.sleep(5)
+element_subject.send_keys("E")
+element_subject.send_keys(Keys.ARROW_DOWN)
+element_subject.send_keys(Keys.ENTER)
 driver.execute_script("window.scroll(0, 200)")
-driver.find_element(By.CSS_SELECTOR, "#dateOfBirthInput").click()
-element_bod = driver.find_element(By.XPATH, "//select[@class='react-datepicker__month-select']")
-#assert dob is not None, "El elemento no esta en la pagina"
-assert element_bod is not None, "El elemento no se encontró en la página"
-driver.find_element(By.CSS_SELECTOR, "option[value='10']").click() #OJO Este elemento si no esta visible en el UI, es decir que no esta ni siquiera abierto la busqueda del elemento no podra ser utilizado. Una opcion en este caso es hacer un assert de el paso anterior requerido para que este sea visible.
-time.sleep(5)
+driver.execute_script("window.scroll(0, 500)")
+# element_subject.send_keys("Hola")
 
 
-year_selected = driver.find_element(By.XPATH, "//select[@class='react-datepicker__year-select']")
-year_selected.click() # HASTA AQUI OKEY
-time.sleep(10)
-#QUEDA PENDIENTE TENER QUE HACER QUE SE PUEDA SELECCIONAR UNA FECHA YO SE QUE LO VI PERO NO RECUERDO COMOXDDDDDDD
-ActionChains(driver).send_keys(Keys.ARROW_UP).perform()
-time.sleep(5)
-# Hacer clic en la opción de año deseada
-driver.quit()
+# driver.quit()

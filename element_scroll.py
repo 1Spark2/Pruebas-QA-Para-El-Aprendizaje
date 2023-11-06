@@ -12,15 +12,15 @@ from selenium.common.exceptions import NoSuchElementException
  
 
 
-# def find_and_scroll(driver, scroll_quantity, element_identificator, max_attempts=3):
-#         if WebDriverWait(driver, 10).until(EC.presence_of_element_located(element_identificator)):
-#             elemento_to_be_clickable = WebDriverWait(driver, 10).until(EC.element_to_be_clickable(element_identificator))
-#             if elemento_to_be_clickable is not None:
-#                 elemento = driver.find_element(*element_identificator)
-#                 return elemento
-#             else:
-#                 driver.execute_script(f"window.scrollBy(0, {scroll_quantity})")
-#                 return find_and_scroll(driver, scroll_quantity, element_identificator, max_attempts - 1)
+def find_and_scroll(driver, scroll_quantity, element_identificator, max_attempts=3):
+        if WebDriverWait(driver, 10).until(EC.presence_of_element_located(element_identificator)):
+            elemento_to_be_clickable = WebDriverWait(driver, 10).until(EC.element_to_be_clickable(element_identificator))
+            if elemento_to_be_clickable is not None:
+                elemento = driver.find_element(*element_identificator)
+                return elemento
+            else:
+                driver.execute_script(f"window.scrollBy(0, {scroll_quantity})")
+                return find_and_scroll(driver, scroll_quantity, element_identificator, max_attempts - 1)
         
 
 

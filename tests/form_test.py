@@ -15,7 +15,7 @@ from element_scroll import find_and_scroll
 
 #Crear el driver para poder darle uso a el navegador y realizar acciones en el mismo.
 driver = webdriver.Firefox()
-wait = WebDriverWait(driver, 10)
+wait = WebDriverWait(driver, timeout=10)
 #Se hace uso del .get para poder pasarle una URL y que sea enviado a la misma
 driver.get('https://demoqa.com/')
 
@@ -42,31 +42,34 @@ driver.find_element(By.CSS_SELECTOR, "#lastName").send_keys('Perez')
 driver.find_element(By.CSS_SELECTOR, "#userEmail").send_keys('Blackyperez@gmail.com')
 driver.find_element(By.CSS_SELECTOR, "label[for='gender-radio-3']").click()
 driver.find_element(By.CSS_SELECTOR, "#userNumber").send_keys("1234567")
-driver.execute_script("window.scroll(0, 400)")
 
+driver.execute_script("window.scroll(0, 400)") 
 
+#Bloque para la Fecha
 element_bod = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, "#dateOfBirthInput")))
 element_bod.click()
-# element_bod = driver.find_element(By.CSS_SELECTOR, "#dateOfBirthInput")
-# element_bod.click()
 element_month_select = driver.find_element(By.CSS_SELECTOR, ".react-datepicker__month-select")
 element_month_select.click()
 driver.find_element(By.CSS_SELECTOR, "option[value='9']").click() #OJO Este elemento si no esta visible en el UI, es decir que no esta ni siquiera abierto la busqueda del elemento no podra ser utilizado. Una opcion en este caso es hacer un assert de el paso anterior requerido para que este sea visible.
 driver.find_element(By.XPATH, "//select[@class='react-datepicker__year-select']").click()
 driver.find_element(By.CSS_SELECTOR, "option[value='2015']").click()
 driver.find_element(By.XPATH, "//div[@aria-label='Choose Wednesday, October 21st, 2015']").click()
-time.sleep(5)
 
 
 element_subject = driver.find_element(By.CSS_SELECTOR, "#subjectsInput")
 element_subject.click()
-time.sleep(5)
-element_subject.send_keys("E")
-element_subject.send_keys(Keys.ARROW_DOWN)
+element_subject.send_keys("E") #Este se puede hacer modular para poder actualizar la variable
+element_subject.send_keys(Keys.ARROW_DOWN) # Y este tambien para cambiar la posicion segun se requiera (Hacer esas dos cosas)
 element_subject.send_keys(Keys.ENTER)
-driver.execute_script("window.scroll(0, 200)")
-driver.execute_script("window.scroll(0, 500)")
-# element_subject.send_keys("Hola")
+
+driver.execute_script("window.scroll(0, 400)") 
+
+element_h_clickeable = driver.find_element(By.CSS_SELECTOR, "label[for='hobbies-checkbox-1']")
+wait.until(lambda d : element_h_clickeable.is_enabled())
+element_h_clickeable.click()
 
 
-# driver.quit()
+upload_photo = driver.find_element(By.CSS_SELECTOR, "#uploadPicture")
+
+
+driver.quit()

@@ -65,11 +65,15 @@ element_subject.send_keys(Keys.ENTER)
 driver.execute_script("window.scroll(0, 400)") 
 
 element_h_clickeable = driver.find_element(By.CSS_SELECTOR, "label[for='hobbies-checkbox-1']")
-wait.until(lambda d : element_h_clickeable.is_enabled())
+wait.until(lambda d : element_h_clickeable.is_displayed())
 element_h_clickeable.click()
 
+time.sleep(5)
 
-upload_photo = driver.find_element(By.CSS_SELECTOR, "#uploadPicture")
-
+upload_photo = driver.find_element(By.XPATH, "//label[@for='uploadPicture']")
+upload_photo.click()
+time.sleep(8)
+upload_photo.send_keys("C:/Users/Usuario/Pictures/bb.jpg")
+time.sleep(5)
 
 driver.quit()
